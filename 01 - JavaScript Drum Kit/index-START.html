@@ -58,7 +58,47 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  function removePlay(key) {
+    setTimeout(1000,function (key) {
+      key.classList.remove('playing')
+    })
+  }
+  let keydownHandler=function(event){
+    //获取键盘点击按钮值   key:键名，有大小写之分
+    let keyCode=event.keyCode
+    console.log(keyCode)
+    
+    /**
+    **固化思维导致的低效选择方式
+    **注意点：
+    **1.data-key 通过dataset.key来获取，值只能是字符串
+    **2.NodeList 可以使用forEach，不能用find等
+    **/
+    // let keys=document.querySelectorAll('.key')
+    // let audios=document.getElementsByTagName('audio')
+    // keys=Array.from(keys)
+    // audios=Array.from(audios)
+    // let key= keys.find(val=>{
+    //   return keyCode==val.dataset.key
+    // })
+    // let audio= audios.find(val=>{
+    //   return keyCode===val.dataset.key
+    // })
 
+    //直接选择  多思考如何更快选择到目标元素
+    let key=document.querySelector(`.key[data-key="${keyCode}"]`)
+    let audio=document.querySelector(`audio[data-key="${keyCode}"]`)
+    
+    console.log(key)
+
+    //play audio
+    audio.currentTime=0
+    audio.play()
+
+    key.classList.add('playing')
+    removePlay(key)
+  }
+  document.addEventListener('keydown',keydownHandler)
 </script>
 
 
